@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bus Booking</title>
+	<style>
+		.data-div{
+			display: flex;
+			flex-direction: row;
+			margin: 0.5rem;
+			padding: 0.5rem;
+		}
+		
+		.data-input{
+			width:55%;
+			margin-right: 10px;
+			text-align: left;
+			justify-content: flex-start;
+			padding:0.5rem ;
+		}
+		
+		.data-preview{
+			width:35%;
+		}
+		
+		form{
+			display: flex;
+			padding: 0.5rem;
+			text-align: center;
+			flex-direction: column;
+		}
+		
+		form div{
+			margin: 10px;
+		}
+		
+		.bus-image{
+			text-align: center;
+		}
+		
+		.bus-img-tag{
+			height: 150px;
+		}
+		
+		.bus-details{
+			text-align: center;
+			height: 50%;
+			font-size: 15px;
+		}
+		
+		.bus-details p{
+			margin-bottom: 0px ;
+		}
+	</style>
+</head>
+<body>
+	<%- include('partials/nav-bar-admin.ejs') %>
+	
+	<div class="data-div">
+		<div class="data-input">
+			<h3 style="text-align: center;">Edit Bus Details</h3>
+			<form action="/edit-bus" method="POST" id="busForm">
+				<div style="display: none;">
+					<label for="_id">_id</label>
+					<input type="text" id="_id" name="_id" value="<%= data?._id?.toString() %>">
+				</div>
+				<div>
+					<label for="busTravels">Travels Name</label>
+					<input type="text" id="busName" name="busName" value="<%= data?.name %>">
+				</div>
+				<div>
+					<label for="busNumber">Bus Number</label>
+					<input type="text" id="busNumber" name="busNumber" value="<%= data?.number %>">
+				</div>
+				<div>
+					<label for="ticketPrice">Ticket Price</label>
+					<input type="text" id="price" name="price" value="<%= data?.price %>">
+				</div>
+				<div>
+					<label for="fromLocation">Source</label>
+					<input type="text" id="fromLocation" name="fromLocation" value="<%= data?.fromLocation %>">
+				</div>
+				<div>
+					<label for="toLocation">Destination</label>
+					<input type="text" id="toLocation" name="toLocation" value="<%= data?.toLocation %>">
+				</div>
+				<div>
+					<label for="busImage">Bus Image Link</label>
+					<input type="text" id="busImage" name="busImage" value="<%= data?.busImage %>">
+				</div>
+				<div>
+					<label for="totalSeats">Total Seats</label>
+					<input type="text" id="totalSeats" name="totalSeats" value="<%= data?.totalSeats %>">
+				</div>
+				<div>
+					<label for="driverName">Driver Name</label>
+					<input type="text" id="driverName" name="driverName" value="<%= data?.driverDetails?.name %>">
+				</div>
+				<div>
+					<label for="driverContact">Driver Contact Number</label>
+					<input type="text" id="driverContact" name="driverContact" value="<%= data?.driverDetails?.contactNumber %>">
+				</div>
+				<div>
+					<input type="submit" value="Save Bus Details">
+				</div>
+			</form>
+		</div>
+		<div class="data-preview">
+			<h3 style="text-align: center;">Details Preview</h3>
+			<div class="bus-image">
+				<img class="bus-img-tag" id="previewBusImage" src="" alt="Bus Image">
+			</div>
+			<div class="bus-details">
+				<p>Bus Name: <span id="previewBusName"></span></p>
+				<p>Bus Number: <span id="previewBusNumber"></span></p>
+				<p>Total Seats: <span id="previewTotalSeats"></span></p>
+				<p>Route: <span id="previewFromLocation"></span> - <span id="previewToLocation"></span></p>
+				<p>Price: ₹<span id="previewPrice"></span></p>
+				<p>Driver Name: ₹<span id="previewDriverName"></span></p>
+				<p>Driver Contact Number : ₹<span id="previewDriverContact"></span></p>
+			</div>
+		</div>
+	</div>
+	
+</body>
+<script>
+	function updatePreview() {
+		document.getElementById('previewBusName').innerText = document.getElementById('busName').value;
+		document.getElementById('previewBusNumber').innerText = document.getElementById('busNumber').value;
+		document.getElementById('previewTotalSeats').innerText = document.getElementById('totalSeats').value;
+		document.getElementById('previewFromLocation').innerText = document.getElementById('fromLocation').value;
+		document.getElementById('previewToLocation').innerText = document.getElementById('toLocation').value;
+		document.getElementById('previewPrice').innerText = document.getElementById('price').value;
+		document.getElementById('previewBusImage').src = document.getElementById('busImage').value || 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Feature_suburban_buses.svg/480px-Feature_suburban_buses.svg.png';
+		document.getElementById('previewDriverName').innerText = document.getElementById('driverName').value;
+		document.getElementById('previewDriverContact').innerText = document.getElementById('driverContact').value;
+		
+	}
+
+	document.querySelectorAll('#busForm input').forEach(input => {
+		input.addEventListener('input', updatePreview);
+	});
+
+	updatePreview();
+
+</script>
+</html>

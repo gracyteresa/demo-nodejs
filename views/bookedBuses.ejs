@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bus Booking</title>
+	<style>
+		table{
+			width: 100%;
+			border-collapse: collapse;
+			border: 2px solid black;
+		}
+		td,th{
+			border: 1px solid black; 
+            padding: 10px;
+			text-align: center !important;
+		}
+		.data-div{
+			margin: 15px;
+		}
+	</style>
+</head>
+<body>
+	<%- include('partials/nav-bar.ejs') %>
+	<div class="data-div">
+		<% if(bookedBuses?.length) { %>
+			<h3 style="text-align: center;">Booked Buses</h3>
+			<table>
+				<tr>
+					<th>S.No</th>
+					<th>Journey Date</th>
+					<th>Travel's Name </th>
+					<th>Bus Number</th>
+					<th>Driver Name</th>
+					<th>Driver's Contact Number</th>
+				</tr>
+				<% for(let i=0;i<bookedBuses?.length;i++) { %>
+					<% const date=new Date(bookedBuses[i].startDate); const day=String(date.getDate()).padStart(2, '0' ); const month=String(date.getMonth()+ 1).padStart(2, '0' ); const year=date.getFullYear(); %>
+					<tr>
+						<td><%= i+1 %></td>
+						<td><%= `${day}-${month}-${year}` %></td>
+						<td><%= bookedBuses[i].name %></td>
+						<td><%= bookedBuses[i].number %></td>
+						<td><%= bookedBuses[i]?.driverDetails?.name %></td>
+						<td><%= bookedBuses[i]?.driverDetails?.contactNumber %></td>
+					</tr>
+				<% } %>
+				<tr></tr>
+			</table>
+		<% } %>
+		
+		<% if(!bookedBuses?.length) { %>
+			<h1 style="text-align: center; margin-top: 15px;">No Buses Booked</h1>
+		<% } %>
+	</div>
+</body>
+</html>

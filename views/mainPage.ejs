@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Main</title>
+	<!-- <link rel="stylesheet" href="style.css"> -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	<style>
+		* {
+			text-decoration: none;
+		}
+
+		.data-div {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: center;
+			height: 100vh;
+			overflow: scroll;
+			margin-top: 15px;
+		}
+
+		.bus-div {
+			display: flex;
+			flex-direction: column;
+			width: 20%;
+			margin: 0.5rem;
+			padding: 0.5rem;
+			box-shadow: 0 0 10px grey;
+			height: 350px;
+		}
+
+		.bus-image {
+			height: 50%;
+		}
+
+		.bus-img-tag {
+			width: 100%;
+			height: 150px;
+		}
+
+		.bus-details {
+			text-align: center;
+			height: 50%;
+			font-size: 15px;
+		}
+
+		.bus-details p {
+			margin-bottom: 0px;
+		}
+
+		.book-ticket,
+		.ticket-booked {
+			padding: 3px;
+			box-shadow: 0 0 1px black;
+			display: flex;
+			width: 100%;
+			text-align: center;
+			justify-content: center;
+		}
+
+		.ticket-booked {
+			color: green;
+		}
+	</style>
+</head>
+
+<body>
+	<%- include('partials/nav-bar.ejs') %>
+
+		<div class="data-div">
+			<% if(buses?.length) { %>
+				<% for(let i=0;i<buses?.length;i++) { %>
+					<% const date=new Date(buses[i].startDate); const day=String(date.getDate()).padStart(2, '0' );
+						const month=String(date.getMonth()+ 1).padStart(2, '0' ); const year=date.getFullYear(); %>
+
+						<div class="bus-div">
+							<div class="bus-image">
+								<img class="bus-img-tag" src="<%=buses[i].busImage%>">
+							</div>
+							<div class="bus-details">
+								<p>Bus Name : <%= buses[i].name %>
+								</p>
+								<p>Bus Number : <%= buses[i].number %>
+								</p>
+								<p>Available Seats : <%= buses[i].availableSeats %>
+								</p>
+								<p>Route : <%= buses[i].fromLocation %> - <%= buses[i].toLocation %>
+								</p>
+								<p>Journey Date : <%= `${day}-${month}-${year}` %>
+								</p>
+								<p>Price : ₹<%= buses[i].price %>
+								</p>
+								<% if(bookedBuses?.includes(buses[i]?._id?.toString())) { %>
+									<p class="ticket-booked">Ticket Booked</p>
+									<% } %>
+
+										<% if(!bookedBuses?.includes(buses[i]?._id?.toString())) { %>
+											<a class="book-ticket" href="/book-ticket/<%=buses[i]._id%>">Book Ticket</a>
+											<% } %>
+							</div>
+						</div>
+						<% } %>
+							<% } %>
+
+								<%if(!buses?.length) { %>
+									<h1 style="text-align: center;margin-top: 15px;">No Buses Available</h1>
+									<% } %>
+
+		</div>
+</body>
+
+</html>
