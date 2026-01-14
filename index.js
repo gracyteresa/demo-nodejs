@@ -3,7 +3,7 @@ const bp = require("body-parser");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 mongoose.connect(
-  "mongodb+srv://gracyteresa17_db_user:<db_password>@cluster1.zxefxc9.mongodb.net/database"
+  "mongodb+srv://gracyteresa17_db_user:Gracy2002@cluster1.zxefxc9.mongodb.net/database"
 );
 const app = express();
 app.set("view engine", "ejs");
