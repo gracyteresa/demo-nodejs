@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: gracy
+      MONGO_INITDB_ROOT_PASSWORD: gracy123
+      MONGO_INITDB_DATABASE: busbook
+    volumes:
+      - mongo-data2:/data/db
+    ports:
+      - "27017:27017"
+
+  backend:
+    build: .
+    container_name: node-backend
+    restart: always
+    ports:
+      - "2000:10000"
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-data2:
+
