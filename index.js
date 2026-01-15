@@ -1,18 +1,23 @@
+require("dotenv").config();
 const express = require("express");
 const bp = require("body-parser");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-mongoose.connect(
-  "mongodb+srv://gracyteresa17_db_user:Gracy2002@cluster1.zxefxc9.mongodb.net/database"
-);
+const MONGO_URL = process.env.MONGO_URL;
+
+mongoose
+  .connect(MONGO_URL)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB error:", err));
+
 const app = express();
 app.set("view engine", "ejs");
 app.use(bp.urlencoded({ extended: true }));
+2;
 app.use(express.static("public"));
 app.use(cookieParser());
 
-const port = 10000;
-
+const port = process.env.PORT || 3000;
 const busSchema = new mongoose.Schema({
   name: String,
   number: String,
