@@ -6,9 +6,9 @@ services:
     container_name: mongodb
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: gracy
-      MONGO_INITDB_ROOT_PASSWORD: gracy123
-      MONGO_INITDB_DATABASE: busbook
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
     volumes:
       - mongo-data2:/data/db
     ports:
@@ -16,12 +16,14 @@ services:
 
   backend:
     build: .
-    container_name: node-backend
+    container_name: backend
     restart: always
-    ports:
-      - "2000:10000"
+    env_file:
+      - .env
     depends_on:
       - mongodb
+    ports:
+      - "${PORT}:${PORT}"
 
 volumes:
   mongo-data2:
